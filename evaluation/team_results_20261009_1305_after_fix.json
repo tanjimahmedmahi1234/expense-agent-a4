@@ -1,0 +1,674 @@
+{
+  "summaries": [
+    {
+      "mode": "team",
+      "runs": 28,
+      "accuracy": 1.0,
+      "consistency": 1.0,
+      "mean_latency_ms": 3248,
+      "mean_rounds": 1.07,
+      "mean_messages": 3.14,
+      "statuses": {
+        "approved": 26,
+        "approved_after_revision": 2
+      },
+      "reviewer_fixed": 0,
+      "reviewer_broke": 0,
+      "reviewer_missed": 0,
+      "needless_revisions": 2
+    }
+  ],
+  "cases": [
+    {
+      "id": "T1",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 4
+      },
+      "expect": [
+        "entertainment"
+      ],
+      "note": "Netflix"
+    },
+    {
+      "id": "T2",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 5
+      },
+      "expect": [
+        "transport"
+      ],
+      "note": "Uber to airport"
+    },
+    {
+      "id": "T3",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 9
+      },
+      "expect": [
+        "shopping"
+      ],
+      "note": "JB Hi-Fi headphones"
+    },
+    {
+      "id": "T4",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 10
+      },
+      "expect": [
+        "education"
+      ],
+      "note": "textbook"
+    },
+    {
+      "id": "T5",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Uber Eats dinner",
+        "amount": 32.0,
+        "merchant": "Uber Eats"
+      },
+      "expect": [
+        "food"
+      ],
+      "note": "trap: Uber is transport, Uber Eats is food"
+    },
+    {
+      "id": "T6",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Bunnings sausage sizzle",
+        "amount": 5.0,
+        "merchant": "Bunnings"
+      },
+      "expect": [
+        "food"
+      ],
+      "note": "trap: Bunnings is a hardware shop"
+    },
+    {
+      "id": "T7",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Kindle textbook for COIT12204",
+        "amount": 59.0,
+        "merchant": "Amazon"
+      },
+      "expect": [
+        "education"
+      ],
+      "note": "trap: Amazon looks like shopping"
+    },
+    {
+      "id": "T8",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Officeworks printer ink for assignments",
+        "amount": 45.0,
+        "merchant": "Officeworks"
+      },
+      "expect": [
+        "education",
+        "shopping"
+      ],
+      "note": "genuinely ambiguous"
+    },
+    {
+      "id": "T9",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Optus phone plan",
+        "amount": 45.0,
+        "merchant": "Optus"
+      },
+      "expect": [
+        "utilities"
+      ],
+      "note": "phone plan"
+    },
+    {
+      "id": "T10",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Shell petrol",
+        "amount": 70.0,
+        "merchant": "Shell"
+      },
+      "expect": [
+        "transport"
+      ],
+      "note": "fuel"
+    },
+    {
+      "id": "T11",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 14
+      },
+      "expect": [
+        true
+      ],
+      "note": "$410 groceries"
+    },
+    {
+      "id": "T12",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 8
+      },
+      "expect": [
+        false
+      ],
+      "note": "$5.50 coffee"
+    },
+    {
+      "id": "T13",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 11
+      },
+      "expect": [
+        true,
+        false
+      ],
+      "note": "borderline: $95 dinner, depends if it's in its own average"
+    },
+    {
+      "id": "T14",
+      "action": "monthly_summary",
+      "args": {
+        "days": 30
+      },
+      "expect": [
+        "summary"
+      ],
+      "note": "total and rent"
+    }
+  ],
+  "runs": [
+    {
+      "case": "T1",
+      "mode": "team",
+      "simulate": null,
+      "answer": "entertainment",
+      "first_answer": "entertainment",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 4776,
+      "conversation_id": "3a6a0e"
+    },
+    {
+      "case": "T1",
+      "mode": "team",
+      "simulate": null,
+      "answer": "entertainment",
+      "first_answer": "entertainment",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3381,
+      "conversation_id": "1b8288"
+    },
+    {
+      "case": "T2",
+      "mode": "team",
+      "simulate": null,
+      "answer": "transport",
+      "first_answer": "transport",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2820,
+      "conversation_id": "ff92fd"
+    },
+    {
+      "case": "T2",
+      "mode": "team",
+      "simulate": null,
+      "answer": "transport",
+      "first_answer": "transport",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3576,
+      "conversation_id": "44fb28"
+    },
+    {
+      "case": "T3",
+      "mode": "team",
+      "simulate": null,
+      "answer": "shopping",
+      "first_answer": "shopping",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2930,
+      "conversation_id": "4fc4ae"
+    },
+    {
+      "case": "T3",
+      "mode": "team",
+      "simulate": null,
+      "answer": "shopping",
+      "first_answer": "shopping",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2593,
+      "conversation_id": "2662af"
+    },
+    {
+      "case": "T4",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2532,
+      "conversation_id": "387679"
+    },
+    {
+      "case": "T4",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2709,
+      "conversation_id": "b84b65"
+    },
+    {
+      "case": "T5",
+      "mode": "team",
+      "simulate": null,
+      "answer": "food",
+      "first_answer": "food",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2809,
+      "conversation_id": "135d04"
+    },
+    {
+      "case": "T5",
+      "mode": "team",
+      "simulate": null,
+      "answer": "food",
+      "first_answer": "food",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2637,
+      "conversation_id": "dc1033"
+    },
+    {
+      "case": "T6",
+      "mode": "team",
+      "simulate": null,
+      "answer": "food",
+      "first_answer": "food",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.8,
+      "issues": [],
+      "latency_ms": 2860,
+      "conversation_id": "6d4127"
+    },
+    {
+      "case": "T6",
+      "mode": "team",
+      "simulate": null,
+      "answer": "food",
+      "first_answer": "food",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.8,
+      "issues": [],
+      "latency_ms": 3258,
+      "conversation_id": "371e5f"
+    },
+    {
+      "case": "T7",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2020,
+      "conversation_id": "d70126"
+    },
+    {
+      "case": "T7",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 1973,
+      "conversation_id": "4272b0"
+    },
+    {
+      "case": "T8",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.7,
+      "issues": [],
+      "latency_ms": 1819,
+      "conversation_id": "fb4d93"
+    },
+    {
+      "case": "T8",
+      "mode": "team",
+      "simulate": null,
+      "answer": "education",
+      "first_answer": "education",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.7,
+      "issues": [],
+      "latency_ms": 2366,
+      "conversation_id": "a632c5"
+    },
+    {
+      "case": "T9",
+      "mode": "team",
+      "simulate": null,
+      "answer": "utilities",
+      "first_answer": "utilities",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3048,
+      "conversation_id": "34bc75"
+    },
+    {
+      "case": "T9",
+      "mode": "team",
+      "simulate": null,
+      "answer": "utilities",
+      "first_answer": "utilities",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 1869,
+      "conversation_id": "767f96"
+    },
+    {
+      "case": "T10",
+      "mode": "team",
+      "simulate": null,
+      "answer": "transport",
+      "first_answer": "transport",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2664,
+      "conversation_id": "17c54a"
+    },
+    {
+      "case": "T10",
+      "mode": "team",
+      "simulate": null,
+      "answer": "transport",
+      "first_answer": "transport",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 2553,
+      "conversation_id": "4bc332"
+    },
+    {
+      "case": "T11",
+      "mode": "team",
+      "simulate": null,
+      "answer": true,
+      "first_answer": true,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3473,
+      "conversation_id": "195c41"
+    },
+    {
+      "case": "T11",
+      "mode": "team",
+      "simulate": null,
+      "answer": true,
+      "first_answer": true,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3556,
+      "conversation_id": "428cf3"
+    },
+    {
+      "case": "T12",
+      "mode": "team",
+      "simulate": null,
+      "answer": false,
+      "first_answer": false,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 4183,
+      "conversation_id": "bc4894"
+    },
+    {
+      "case": "T12",
+      "mode": "team",
+      "simulate": null,
+      "answer": false,
+      "first_answer": false,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3583,
+      "conversation_id": "d27da7"
+    },
+    {
+      "case": "T13",
+      "mode": "team",
+      "simulate": null,
+      "answer": true,
+      "first_answer": true,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved_after_revision",
+      "stop_reason": "approved",
+      "rounds": 2,
+      "messages": 5,
+      "confidence": 0.9,
+      "issues": [
+        "Incorrect average calculation"
+      ],
+      "latency_ms": 7284,
+      "conversation_id": "6d1367"
+    },
+    {
+      "case": "T13",
+      "mode": "team",
+      "simulate": null,
+      "answer": true,
+      "first_answer": true,
+      "correct": true,
+      "first_correct": true,
+      "status": "approved_after_revision",
+      "stop_reason": "approved",
+      "rounds": 2,
+      "messages": 5,
+      "confidence": 0.9,
+      "issues": [
+        "Incorrect average calculation",
+        "Incorrect average calculation"
+      ],
+      "latency_ms": 7279,
+      "conversation_id": "b0a71c"
+    },
+    {
+      "case": "T14",
+      "mode": "team",
+      "simulate": null,
+      "answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "first_answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3321,
+      "conversation_id": "c19098"
+    },
+    {
+      "case": "T14",
+      "mode": "team",
+      "simulate": null,
+      "answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "first_answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "correct": true,
+      "first_correct": true,
+      "status": "approved",
+      "stop_reason": "approved",
+      "rounds": 1,
+      "messages": 3,
+      "confidence": 0.9,
+      "issues": [],
+      "latency_ms": 3093,
+      "conversation_id": "feb895"
+    }
+  ]
+}

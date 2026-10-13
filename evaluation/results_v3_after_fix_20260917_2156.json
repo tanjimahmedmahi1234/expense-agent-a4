@@ -1,0 +1,615 @@
+{
+  "summary": {
+    "version": "v3",
+    "runs": 22,
+    "repeats": 2,
+    "parsed_rate": 1.0,
+    "accuracy": 1.0,
+    "tool_use_rate": 1.0,
+    "fenced": 3,
+    "retries": 0,
+    "warning_runs": 2,
+    "consistency": 1.0,
+    "mean_latency_ms": 2330
+  },
+  "cases": [
+    {
+      "id": "C1",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 4
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Netflix, saved"
+    },
+    {
+      "id": "C2",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 5
+      },
+      "expect": {
+        "category": [
+          "transport"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Uber to airport, saved"
+    },
+    {
+      "id": "C3",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 6
+      },
+      "expect": {
+        "category": [
+          "health"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Chemist Warehouse vitamins, saved"
+    },
+    {
+      "id": "C4",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 9
+      },
+      "expect": {
+        "category": [
+          "shopping"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "JB Hi-Fi headphones, saved"
+    },
+    {
+      "id": "C5",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 10
+      },
+      "expect": {
+        "category": [
+          "education"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Textbook, saved"
+    },
+    {
+      "id": "C6",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Spotify premium",
+        "amount": 12.99,
+        "merchant": "Spotify"
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": null
+      },
+      "note": "free text, clear"
+    },
+    {
+      "id": "C7",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Bunnings paint and brushes",
+        "amount": 85.0,
+        "merchant": "Bunnings"
+      },
+      "expect": {
+        "category": [
+          "shopping",
+          "other"
+        ],
+        "tool": null
+      },
+      "note": "free text, ambiguous"
+    },
+    {
+      "id": "C8",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 14
+      },
+      "expect": {
+        "is_unusual": true,
+        "tool": "category_totals"
+      },
+      "note": "$410 groceries vs ~$48 average"
+    },
+    {
+      "id": "C9",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 8
+      },
+      "expect": {
+        "is_unusual": false,
+        "tool": "category_totals"
+      },
+      "note": "$5.50 coffee, normal"
+    },
+    {
+      "id": "C10",
+      "action": "monthly_summary",
+      "args": {
+        "days": 30
+      },
+      "expect": {
+        "summary_contains": "rent",
+        "tool": "category_totals"
+      },
+      "note": "summary should name rent as biggest"
+    },
+    {
+      "id": "C11",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 999
+      },
+      "expect": {
+        "category": [
+          null
+        ],
+        "max_confidence": 0.2,
+        "tool": "lookup_expense"
+      },
+      "note": "expense does not exist"
+    }
+  ],
+  "runs": [
+    {
+      "case": "C1",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1716,
+      "answer": "entertainment",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'Netflix monthly', which is a streaming service and fits under the entertainment category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":4,\"category\":\"entertainment\",\"reasoning\":\"The expense is for 'Netflix monthly', which is a streaming service and fits under the entertainment category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C1",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1792,
+      "answer": "entertainment",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'Netflix monthly', which is a streaming service and fits under the entertainment category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":4,\"category\":\"entertainment\",\"reasoning\":\"The expense is for 'Netflix monthly', which is a streaming service and fits under the entertainment category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C2",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1808,
+      "answer": "transport",
+      "confidence": 0.9,
+      "reasoning": "The expense is for an Uber ride, which falls under the transport category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":5,\"category\":\"transport\",\"reasoning\":\"The expense is for an Uber ride, which falls under the transport category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C2",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1494,
+      "answer": "transport",
+      "confidence": 0.9,
+      "reasoning": "The expense is for an Uber ride, which falls under the transport category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":5,\"category\":\"transport\",\"reasoning\":\"The expense is for an Uber ride, which falls under the transport category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C3",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1576,
+      "answer": "health",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'Chemist Warehouse vitamins', which fits into the health category as it involves purchasing health-related products.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":6,\"category\":\"health\",\"reasoning\":\"The expense is for 'Chemist Warehouse vitamins', which fits into the health category as it involves purchasing health-related products.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C3",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1879,
+      "answer": "health",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'Chemist Warehouse vitamins', which falls under the health category as it involves purchasing health-related products.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":6,\"category\":\"health\",\"reasoning\":\"The expense is for 'Chemist Warehouse vitamins', which falls under the health category as it involves purchasing health-related products.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C4",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1713,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'JB Hi-Fi headphones', which fits into the shopping category as it involves electronics.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":9,\"category\":\"shopping\",\"reasoning\":\"The expense is for 'JB Hi-Fi headphones', which fits into the shopping category as it involves electronics.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C4",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2682,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'JB Hi-Fi headphones', which falls under the shopping category as it involves electronics.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":9,\"category\":\"shopping\",\"reasoning\":\"The expense is for 'JB Hi-Fi headphones', which falls under the shopping category as it involves electronics.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C5",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1759,
+      "answer": "education",
+      "confidence": 0.9,
+      "reasoning": "The expense is for a textbook, which fits into the education category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":10,\"category\":\"education\",\"reasoning\":\"The expense is for a textbook, which fits into the education category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C5",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1797,
+      "answer": "education",
+      "confidence": 0.9,
+      "reasoning": "The expense is for a textbook, which fits into the education category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":10,\"category\":\"education\",\"reasoning\":\"The expense is for a textbook, which fits into the education category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C6",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1052,
+      "answer": "entertainment",
+      "confidence": 0.9,
+      "reasoning": "Spotify is a music streaming service, which falls under the entertainment category.",
+      "raw_output": "```json\n{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"entertainment\",\"reasoning\":\"Spotify is a music streaming service, which falls under the entertainment category.\",\"confidence\":0.9}\n```"
+    },
+    {
+      "case": "C6",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1611,
+      "answer": "entertainment",
+      "confidence": 0.9,
+      "reasoning": "Spotify is a music streaming service, which falls under the entertainment category.",
+      "raw_output": "```json\n{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"entertainment\",\"reasoning\":\"Spotify is a music streaming service, which falls under the entertainment category.\",\"confidence\":0.9}\n```"
+    },
+    {
+      "case": "C7",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "list_recent_expenses"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2076,
+      "answer": "other",
+      "confidence": 0.7,
+      "reasoning": "The expense for 'Bunnings paint and brushes' does not fit into any of the predefined categories like food, transport, rent, utilities, entertainment, shopping, health, or education, so it is categorized as 'other'.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"other\",\"reasoning\":\"The expense for 'Bunnings paint and brushes' does not fit into any of the predefined categories like food, transport, rent, utilities, entertainment, shopping, health, or education, so it is categorized as 'other'.\",\"confidence\":0.7}"
+    },
+    {
+      "case": "C7",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 4787,
+      "answer": "other",
+      "confidence": 0.8,
+      "reasoning": "Bunnings is a hardware store, and paint and brushes do not fit into any of the specified categories like food, transport, or utilities, so 'other' is the most appropriate category.",
+      "raw_output": "```json\n{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"other\",\"reasoning\":\"Bunnings is a hardware store, and paint and brushes do not fit into any of the specified categories like food, transport, or utilities, so 'other' is the most appropriate category.\",\"confidence\":0.8}\n```"
+    },
+    {
+      "case": "C8",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3100,
+      "answer": true,
+      "confidence": 0.9,
+      "reasoning": "The expense of $410.0 for groceries is significantly higher than the average food expense of $47.92 over the last 30 days, making it unusually large.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":14,\"category\":\"food\",\"is_unusual\":true,\"reasoning\":\"The expense of $410.0 for groceries is significantly higher than the average food expense of $47.92 over the last 30 days, making it unusually large.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C8",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2595,
+      "answer": true,
+      "confidence": 0.9,
+      "reasoning": "The expense of $410.0 for groceries is significantly higher than the average food expense of $47.92 over the last 30 days, making it unusually large.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":14,\"category\":\"food\",\"is_unusual\":true,\"reasoning\":\"The expense of $410.0 for groceries is significantly higher than the average food expense of $47.92 over the last 30 days, making it unusually large.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C9",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3004,
+      "answer": false,
+      "confidence": 0.9,
+      "reasoning": "The expense of $5.5 for 'Coffee at campus cafe' is below the average spending of $47.92 for the food category over the last 30 days.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":8,\"category\":\"food\",\"is_unusual\":false,\"reasoning\":\"The expense of $5.5 for 'Coffee at campus cafe' is below the average spending of $47.92 for the food category over the last 30 days.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C9",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2605,
+      "answer": false,
+      "confidence": 0.9,
+      "reasoning": "The expense of $5.5 for 'Coffee at campus cafe' is below the average spending of $47.92 for the food category over the last 30 days.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":8,\"category\":\"food\",\"is_unusual\":false,\"reasoning\":\"The expense of $5.5 for 'Coffee at campus cafe' is below the average spending of $47.92 for the food category over the last 30 days.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C10",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 4503,
+      "answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "confidence": 0.9,
+      "reasoning": "The total spending was $2306.44, with rent being the largest category at $1200.00. The uncategorised expenses are unusually high, suggesting a need for review.",
+      "raw_output": "{\"action\":\"monthly_summary\",\"expense_id\":null,\"category\":null,\"is_unusual\":null,\"summary\":\"In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.\",\"reasoning\":\"The total spending was $2306.44, with rent being the largest category at $1200.00. The uncategorised expenses are unusually high, suggesting a need for review.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C10",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2687,
+      "answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "confidence": 0.9,
+      "reasoning": "The total spending is $2306.44 with rent being the largest category at $1200.00. The uncategorised expenses are unusually high, suggesting a need for review.",
+      "raw_output": "{\"action\":\"monthly_summary\",\"expense_id\":null,\"category\":null,\"is_unusual\":null,\"summary\":\"In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.\",\"reasoning\":\"The total spending is $2306.44 with rent being the largest category at $1200.00. The uncategorised expenses are unusually high, suggesting a need for review.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C11",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3267,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "The expense with id 999 does not exist, so it cannot be categorized.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":999,\"category\":null,\"reasoning\":\"The expense with id 999 does not exist, so it cannot be categorized.\",\"confidence\":0.0}"
+    },
+    {
+      "case": "C11",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1766,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "The expense with id 999 does not exist, so it cannot be categorized.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":999,\"category\":null,\"reasoning\":\"The expense with id 999 does not exist, so it cannot be categorized.\",\"confidence\":0.0}"
+    }
+  ]
+}

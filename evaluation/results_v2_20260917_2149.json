@@ -1,0 +1,609 @@
+{
+  "summary": {
+    "version": "v2",
+    "runs": 22,
+    "repeats": 2,
+    "parsed_rate": 0.8181818181818182,
+    "accuracy": 0.8181818181818182,
+    "tool_use_rate": 0.8181818181818182,
+    "fenced": 2,
+    "retries": 0,
+    "warning_runs": 2,
+    "consistency": 0.9090909090909091,
+    "mean_latency_ms": 2268
+  },
+  "cases": [
+    {
+      "id": "C1",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 4
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Netflix, saved"
+    },
+    {
+      "id": "C2",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 5
+      },
+      "expect": {
+        "category": [
+          "transport"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Uber to airport, saved"
+    },
+    {
+      "id": "C3",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 6
+      },
+      "expect": {
+        "category": [
+          "health"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Chemist Warehouse vitamins, saved"
+    },
+    {
+      "id": "C4",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 9
+      },
+      "expect": {
+        "category": [
+          "shopping"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "JB Hi-Fi headphones, saved"
+    },
+    {
+      "id": "C5",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 10
+      },
+      "expect": {
+        "category": [
+          "education"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Textbook, saved"
+    },
+    {
+      "id": "C6",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Spotify premium",
+        "amount": 12.99,
+        "merchant": "Spotify"
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": null
+      },
+      "note": "free text, clear"
+    },
+    {
+      "id": "C7",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Bunnings paint and brushes",
+        "amount": 85.0,
+        "merchant": "Bunnings"
+      },
+      "expect": {
+        "category": [
+          "shopping",
+          "other"
+        ],
+        "tool": null
+      },
+      "note": "free text, ambiguous"
+    },
+    {
+      "id": "C8",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 14
+      },
+      "expect": {
+        "is_unusual": true,
+        "tool": "category_totals"
+      },
+      "note": "$410 groceries vs ~$48 average"
+    },
+    {
+      "id": "C9",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 8
+      },
+      "expect": {
+        "is_unusual": false,
+        "tool": "category_totals"
+      },
+      "note": "$5.50 coffee, normal"
+    },
+    {
+      "id": "C10",
+      "action": "monthly_summary",
+      "args": {
+        "days": 30
+      },
+      "expect": {
+        "summary_contains": "rent",
+        "tool": "category_totals"
+      },
+      "note": "summary should name rent as biggest"
+    },
+    {
+      "id": "C11",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 999
+      },
+      "expect": {
+        "category": [
+          null
+        ],
+        "max_confidence": 0.2,
+        "tool": "lookup_expense"
+      },
+      "note": "expense does not exist"
+    }
+  ],
+  "runs": [
+    {
+      "case": "C1",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1741,
+      "answer": "entertainment",
+      "confidence": 0.95,
+      "reasoning": "The expense is for a Netflix monthly subscription, which is a streaming service typically categorized under entertainment.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":4,\"category\":\"entertainment\",\"reasoning\":\"The expense is for a Netflix monthly subscription, which is a streaming service typically categorized under entertainment.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C1",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2078,
+      "answer": "entertainment",
+      "confidence": 0.95,
+      "reasoning": "The expense is for a Netflix monthly subscription, which is a streaming service typically categorized under entertainment.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":4,\"category\":\"entertainment\",\"reasoning\":\"The expense is for a Netflix monthly subscription, which is a streaming service typically categorized under entertainment.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C2",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1794,
+      "answer": "transport",
+      "confidence": 0.95,
+      "reasoning": "The expense is for an Uber ride, which is a transportation service, making 'transport' the most appropriate category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":5,\"category\":\"transport\",\"reasoning\":\"The expense is for an Uber ride, which is a transportation service, making 'transport' the most appropriate category.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C2",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1944,
+      "answer": "transport",
+      "confidence": 0.95,
+      "reasoning": "The expense is for an Uber ride, which is a transportation service, making 'transport' the most appropriate category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":5,\"category\":\"transport\",\"reasoning\":\"The expense is for an Uber ride, which is a transportation service, making 'transport' the most appropriate category.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C3",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1562,
+      "answer": "health",
+      "confidence": 0.95,
+      "reasoning": "The expense is for 'Chemist Warehouse vitamins', which is related to health and wellness products.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":6,\"category\":\"health\",\"reasoning\":\"The expense is for 'Chemist Warehouse vitamins', which is related to health and wellness products.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C3",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1519,
+      "answer": "health",
+      "confidence": 0.95,
+      "reasoning": "The expense is for 'Chemist Warehouse vitamins', which is related to health and wellness products.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":6,\"category\":\"health\",\"reasoning\":\"The expense is for 'Chemist Warehouse vitamins', which is related to health and wellness products.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C4",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1570,
+      "answer": "shopping",
+      "confidence": 0.95,
+      "reasoning": "The expense is for 'JB Hi-Fi headphones', which is a purchase of electronic goods. This fits best under the 'shopping' category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":9,\"category\":\"shopping\",\"reasoning\":\"The expense is for 'JB Hi-Fi headphones', which is a purchase of electronic goods. This fits best under the 'shopping' category.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C4",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1694,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'JB Hi-Fi headphones', which is a purchase of electronic goods. This fits best under the 'shopping' category.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":9,\"category\":\"shopping\",\"reasoning\":\"The expense is for 'JB Hi-Fi headphones', which is a purchase of electronic goods. This fits best under the 'shopping' category.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C5",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1592,
+      "answer": "education",
+      "confidence": 0.95,
+      "reasoning": "The expense is for a textbook, which is typically related to educational purposes.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":10,\"category\":\"education\",\"reasoning\":\"The expense is for a textbook, which is typically related to educational purposes.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C5",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1511,
+      "answer": "education",
+      "confidence": 0.95,
+      "reasoning": "The expense is for a textbook related to a course code (COIT12204), which indicates it is an educational expense.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":10,\"category\":\"education\",\"reasoning\":\"The expense is for a textbook related to a course code (COIT12204), which indicates it is an educational expense.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C6",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1030,
+      "answer": "entertainment",
+      "confidence": 0.95,
+      "reasoning": "Spotify is a music streaming service, which falls under entertainment.",
+      "raw_output": "```json\n{\n  \"action\": \"categorize_expense\",\n  \"expense_id\": null,\n  \"category\": \"entertainment\",\n  \"reasoning\": \"Spotify is a music streaming service, which falls under entertainment.\",\n  \"confidence\": 0.95\n}\n```"
+    },
+    {
+      "case": "C6",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1002,
+      "answer": "entertainment",
+      "confidence": 0.95,
+      "reasoning": "Spotify is a music streaming service, which falls under the category of entertainment.",
+      "raw_output": "```json\n{\n  \"action\": \"categorize_expense\",\n  \"expense_id\": null,\n  \"category\": \"entertainment\",\n  \"reasoning\": \"Spotify is a music streaming service, which falls under the category of entertainment.\",\n  \"confidence\": 0.95\n}\n```"
+    },
+    {
+      "case": "C7",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "list_recent_expenses",
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2674,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The purchase of paint and brushes from Bunnings is related to home improvement or DIY projects, which typically falls under the 'shopping' category rather than a specific utility or service.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"shopping\",\"reasoning\":\"The purchase of paint and brushes from Bunnings is related to home improvement or DIY projects, which typically falls under the 'shopping' category rather than a specific utility or service.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C7",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "list_recent_expenses",
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 4547,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The expense is for paint and brushes from Bunnings, which is a hardware store. This type of purchase is typically categorized under shopping as it involves buying goods for personal use or home improvement.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"shopping\",\"reasoning\":\"The expense is for paint and brushes from Bunnings, which is a hardware store. This type of purchase is typically categorized under shopping as it involves buying goods for personal use or home improvement.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C8",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3448,
+      "answer": true,
+      "confidence": 0.95,
+      "reasoning": "The expense amount of $410.0 for food is significantly higher than the average food expense of $120.34 over the last 90 days.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":14,\"category\":\"food\",\"is_unusual\":true,\"reasoning\":\"The expense amount of $410.0 for food is significantly higher than the average food expense of $120.34 over the last 90 days.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C8",
+      "version": "v2",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29350, Requested 720. Please try again in 140ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2962,
+      "answer": true,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29350, Requested 720. Please try again in 140ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C9",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense",
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 4143,
+      "answer": false,
+      "confidence": 0.95,
+      "reasoning": "The expense of $5.5 for coffee is below the average spending of $47.92 in the food category over the last 30 days.",
+      "raw_output": "{\"action\":\"check_unusual_expense\",\"expense_id\":8,\"category\":\"food\",\"is_unusual\":false,\"reasoning\":\"The expense of $5.5 for coffee is below the average spending of $47.92 in the food category over the last 30 days.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C9",
+      "version": "v2",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29429, Requested 719. Please try again in 296ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 4861,
+      "answer": false,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29429, Requested 719. Please try again in 296ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C10",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "category_totals"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2223,
+      "answer": "In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.",
+      "confidence": 0.95,
+      "reasoning": "The total spending is $2306.44, with rent being the largest category at $1200.00. The uncategorised expenses are quite high, indicating potential misclassification or overlooked expenses.",
+      "raw_output": "{\"action\":\"monthly_summary\",\"expense_id\":null,\"category\":null,\"is_unusual\":null,\"summary\":\"In the last 30 days, you spent a total of $2306.44. The biggest category was rent at $1200.00. Notably, there is a significant amount of $595.44 in uncategorised expenses, which might need attention.\",\"reasoning\":\"The total spending is $2306.44, with rent being the largest category at $1200.00. The uncategorised expenses are quite high, indicating potential misclassification or overlooked expenses.\",\"confidence\":0.95}"
+    },
+    {
+      "case": "C10",
+      "version": "v2",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29706, Requested 581. Please try again in 574ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 1020,
+      "answer": "You spent $2306.44 across 13 expenses in the last 30 days. The biggest category was rent. 5 expenses still have no category.",
+      "confidence": 0.5,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29706, Requested 581. Please try again in 574ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C11",
+      "version": "v2",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29496, Requested 612. Please try again in 216ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2090,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "Expense 999 does not exist. Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29496, Requested 612. Please try again in 216ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C11",
+      "version": "v2",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 2899,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "The expense with id 999 does not exist, so it cannot be categorized.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":999,\"category\":null,\"reasoning\":\"The expense with id 999 does not exist, so it cannot be categorized.\",\"confidence\":0}"
+    }
+  ]
+}

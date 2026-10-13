@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expense Agent | Tanjim Ahmed Mahi</title>
+<style>
+  :root {
+    --navy: #0b1d3a;
+    --blue: #2d8cff;
+    --purple: #7c4dff;
+    --green: #22b07d;
+    --orange: #ff8a3d;
+    --red: #f5455c;
+    --bg: #eef2f7;
+    --text: #1f2a44;
+    --muted: #8a94a6;
+    --line: #e6eaf1;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; background: var(--bg); color: var(--text); }
+  button, input, select { font: inherit; }
+
+  /* ---------- top bar ---------- */
+  header { background: var(--navy); color: #fff; display: flex; align-items: center; gap: 14px; padding: 12px 22px; }
+  .logo { width: 36px; height: 36px; border-radius: 9px; background: linear-gradient(135deg, var(--blue), #13c2c2); display: grid; place-items: center; font-weight: 700; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .sub { font-size: 12px; color: #9fb2d4; }
+  .pill { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: #1d3a66; color: #cfe0ff; }
+  .pill.bad { background: #5c1f2b; color: #ffd0d7; }
+  .spacer { flex: 1; }
+  header .btn { background: transparent; color: #fff; border-color: #3a5583; }
+  header .btn:hover { background: #12294f; }
+  header a { text-decoration: none; }
+
+  /* ---------- three columns ---------- */
+  main { display: grid; grid-template-columns: 280px 1fr 340px; gap: 16px; padding: 16px 22px; height: calc(100vh - 92px); }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(16, 30, 60, .07); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0; padding: 14px 16px 10px; }
+  .scroll { overflow-y: auto; flex: 1; min-height: 0; }
+  footer { text-align: center; font-size: 12px; color: var(--muted); padding-bottom: 8px; }
+
+  /* ---------- expenses ---------- */
+  .exp { padding: 10px 16px; border-top: 1px solid #f1f3f7; cursor: pointer; }
+  .exp:hover { background: #f6f8fc; }
+  .exp.sel { background: #e8f1ff; box-shadow: inset 3px 0 0 var(--blue); }
+  .exp .top { display: flex; justify-content: space-between; gap: 8px; font-weight: 500; }
+  .exp .meta { font-size: 12px; color: var(--muted); margin-top: 4px; display: flex; gap: 6px; align-items: center; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 999px; color: #fff; }
+  .tag.none { background: #fff3cd; color: #8a5a00; }
+  .add { padding: 12px 16px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; background: #fafbfd; }
+
+  /* ---------- chat ---------- */
+  .chat { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .msg { max-width: 85%; padding: 10px 14px; border-radius: 12px; line-height: 1.45; }
+  .msg.user { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.agent { align-self: flex-start; background: #f2f5fa; border-bottom-left-radius: 4px; }
+  .msg.error { align-self: flex-start; background: #ffe8eb; color: #8c1525; }
+  .msg.thread { align-self: stretch; max-width: 100%; padding: 0; background: none; display: flex; flex-direction: column; gap: 6px; }
+  .answer { font-size: 20px; font-weight: 600; margin: 2px 0 6px; }
+  .who { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; color: #fff; }
+  .who.orchestrator { background: #5a6680; }
+  .who.classifier { background: var(--blue); }
+  .who.reviewer { background: var(--purple); }
+  .who.other { background: var(--red); }
+  .amsg { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 13px; }
+  .amsg.bad { border-color: #ffb3bd; background: #fff5f6; }
+  .amsg .hd { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+  .amsg .hd .step { color: var(--muted); font-size: 12px; margin-right: 4px; }
+  .amsg .hd .intent { margin-left: auto; font-family: Consolas, Menlo, monospace; font-size: 11px; color: #5a6680; background: #f2f5fa; padding: 1px 6px; border-radius: 4px; }
+  .amsg .arrow { color: var(--muted); }
+  .conf { height: 6px; background: var(--line); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .conf div { height: 100%; background: var(--blue); }
+  .hint { font-size: 12px; color: var(--muted); }
+  .chip { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid #d4dcea; background: #fff; color: #4b5873; margin: 4px 4px 0 0; }
+  .chip.ok { background: #e3f8ef; border-color: #9fe2c6; color: #127152; }
+  .chip.rev { background: #fff4e5; border-color: #ffd29e; color: #9a4f00; }
+  .chip.bad { background: #ffe8eb; border-color: #ffb3bd; color: #b4192e; }
+
+  .composer { border-top: 1px solid var(--line); padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; background: #fafbfd; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  select, input { padding: 8px 10px; border: 1px solid #d4dcea; border-radius: 8px; background: #fff; }
+  .grow { flex: 1; min-width: 130px; }
+  .btn { padding: 8px 14px; border: 1px solid #d4dcea; border-radius: 8px; background: #fff; cursor: pointer; }
+  .btn.blue { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .selchip { background: #e8f1ff; color: #1d5fd1; padding: 6px 10px; border-radius: 8px; font-size: 13px; }
+
+  /* ---------- right column ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px 12px; }
+  .tile { border-radius: 8px; padding: 8px 10px; color: #fff; }
+  .tile .n { font-size: 20px; font-weight: 600; }
+  .tile .l { font-size: 11px; opacity: .9; }
+  .t-blue { background: var(--blue); }
+  .t-red { background: var(--red); }
+  .t-orange { background: var(--orange); }
+  .t-green { background: var(--green); }
+  .t-purple { background: var(--purple); }
+  .t-grey { background: #5a6680; }
+  .log { background: var(--navy); color: #c9d4e6; font-family: Consolas, Menlo, monospace; font-size: 11px; padding: 10px 14px;
+         white-space: pre-wrap; word-break: break-all; line-height: 1.5; }
+  .log .state { color: #7fb6ff; }
+  .log .route { color: #c7a8ff; font-weight: 600; }
+  .log .tool { color: #7ee2b8; }
+  .log .warn { color: #ffcf7a; }
+  .log .err { color: #ff8a9a; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TM</div>
+  <div>
+    <h1>Expense Agent</h1>
+    <div class="sub">Tanjim Ahmed Mahi · 12298057 · COIT12204</div>
+  </div>
+  <span class="pill" id="health">connecting...</span>
+  <span class="spacer"></span>
+  <button class="btn" id="resetBtn">Reset state</button>
+  <a href="/docs" target="_blank"><button class="btn">API docs</button></a>
+</header>
+
+<main>
+  <!-- ===== left: expenses ===== -->
+  <section class="card">
+    <h2>Expenses</h2>
+    <div class="scroll" id="expenses"></div>
+    <div class="add">
+      <input id="addDesc" placeholder="New expense description">
+      <div class="row">
+        <input id="addAmount" type="number" step="0.01" placeholder="Amount" style="width:100px">
+        <input id="addMerchant" class="grow" placeholder="Merchant (optional)">
+      </div>
+      <button class="btn" id="addBtn">Add expense</button>
+    </div>
+  </section>
+
+  <!-- ===== middle: the agents ===== -->
+  <section class="card">
+    <h2>Ask the agents</h2>
+    <div class="chat" id="chat">
+      <div class="msg agent">Hi. Pick an expense or type a new one, choose a job and press Ask.
+        The classifier answers first, then the reviewer checks it before you see it.</div>
+    </div>
+    <div class="composer">
+      <div class="row">
+        <select id="action">
+          <option value="categorize_expense">Categorise this expense</option>
+          <option value="check_unusual_expense">Is this expense unusual?</option>
+          <option value="monthly_summary">Summarise my spending</option>
+        </select>
+        <span class="selchip" id="selChip" style="display:none"></span>
+        <button class="btn" id="clearSel" style="display:none">clear</button>
+        <input id="days" type="number" min="1" max="90" value="30" style="width:80px; display:none" title="days">
+      </div>
+      <div class="row" id="freeRow">
+        <input class="grow" id="freeDesc" placeholder="...or type a new expense, e.g. Uber Eats dinner">
+        <input id="freeAmount" type="number" step="0.01" placeholder="Amount" style="width:100px">
+      </div>
+      <div class="row">
+        <select id="mode">
+          <option value="team">Two agents (classifier + reviewer)</option>
+          <option value="single">Single agent (A3)</option>
+        </select>
+        <select id="simulate">
+          <option value="">No simulated failure</option>
+          <option value="force_revise">Reviewer always disagrees</option>
+          <option value="reviewer_timeout">Reviewer is too slow (timeout)</option>
+          <option value="invalid_receiver">Message sent to a wrong agent</option>
+          <option value="bad_message">Broken message (missing proposal)</option>
+        </select>
+      </div>
+      <div class="row">
+        <span class="hint grow" id="hint"></span>
+        <button class="btn blue" id="askBtn">Ask</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== right: state, history, log ===== -->
+  <section class="card">
+    <h2>Classifier</h2>
+    <div class="tiles">
+      <div class="tile t-blue"><div class="n" id="runCount">0</div><div class="l">runs</div></div>
+      <div class="tile t-red"><div class="n" id="errorCount">0</div><div class="l">errors</div></div>
+      <div class="tile t-orange"><div class="n" id="fallbackCount">0</div><div class="l">fallbacks</div></div>
+    </div>
+    <h2>Team</h2>
+    <div class="tiles">
+      <div class="tile t-green"><div class="n" id="tApproved">0</div><div class="l">approved</div></div>
+      <div class="tile t-purple"><div class="n" id="tRevised">0</div><div class="l">after revision</div></div>
+      <div class="tile t-grey"><div class="n" id="tFailed">0</div><div class="l">not approved</div></div>
+    </div>
+    <h2>Log</h2>
+    <div class="scroll log" id="log"></div>
+  </section>
+</main>
+
+<footer>Expense Agent · Tanjim Ahmed Mahi (12298057) · COIT12204</footer>
+
+<script>
+// ---------- helpers ----------
+function $(id) { return document.getElementById(id); }
+
+// never put text from the server straight into the page
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+async function getJSON(url) {
+  var r = await fetch(url);
+  return r.json();
+}
+
+async function postJSON(url, body) {
+  var r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body || {}) });
+  var data = await r.json();
+  return { ok: r.ok, status: r.status, data: data };
+}
+
+function money(n) {
+  return "$" + Number(n).toFixed(2);
+}
+
+// one colour per category
+var COLORS = {
+  food: "#ff8a3d", transport: "#2d8cff", rent: "#7c4dff", utilities: "#13c2c2",
+  entertainment: "#eb2f96", shopping: "#faad14", health: "#22b07d", education: "#2f54eb", other: "#8c8c8c"
+};
+
+function catTag(c) {
+  if (!c) return '<span class="tag none">no category</span>';
+  return '<span class="tag" style="background:' + (COLORS[c] || "#8c8c8c") + '">' + esc(c) + "</span>";
+}
+
+var expenses = [];
+var selected = null;
+var busy = false;
+
+// ---------- left: expenses ----------
+async function loadExpenses() {
+  try {
+    expenses = await getJSON("/api/expenses");
+  } catch (e) {
+    return;
+  }
+  expenses.sort(function (a, b) { return b.date.localeCompare(a.date); });
+  var html = "";
+  for (var i = 0; i < expenses.length; i++) {
+    var e = expenses[i];
+    var sel = selected && selected.id === e.id ? " sel" : "";
+    html += '<div class="exp' + sel + '" onclick="pick(' + e.id + ')">' +
+            '<div class="top"><span>' + esc(e.description) + "</span><span>" + money(e.amount) + "</span></div>" +
+            '<div class="meta">#' + e.id + " · " + esc(e.date) + " " + catTag(e.category) + "</div></div>";
+  }
+  $("expenses").innerHTML = html;
+}
+
+function pick(id) {
+  for (var i = 0; i < expenses.length; i++) {
+    if (expenses[i].id === id) selected = expenses[i];
+  }
+  $("selChip").textContent = "#" + selected.id + " " + selected.description;
+  $("selChip").style.display = "";
+  $("clearSel").style.display = "";
+  $("freeDesc").value = "";
+  $("freeAmount").value = "";
+  loadExpenses();
+  updateForm();
+}
+
+$("clearSel").onclick = function () {
+  selected = null;
+  $("selChip").style.display = "none";
+  $("clearSel").style.display = "none";
+  loadExpenses();
+  updateForm();
+};
+
+$("addBtn").onclick = async function () {
+  var body = { description: $("addDesc").value, amount: parseFloat($("addAmount").value), merchant: $("addMerchant").value || null };
+  var r = await postJSON("/api/expenses", body);
+  if (!r.ok) {
+    addMsg("error", "Could not add the expense: " + esc(JSON.stringify(r.data.detail)));
+    return;
+  }
+  $("addDesc").value = "";
+  $("addAmount").value = "";
+  $("addMerchant").value = "";
+  await loadExpenses();
+  pick(r.data.id);
+};
+
+// only show the inputs that make sense for the chosen job
+function updateForm() {
+  var a = $("action").value;
+  $("days").style.display = a === "monthly_summary" ? "" : "none";
+  $("freeRow").style.display = a === "categorize_expense" ? "" : "none";
+  $("simulate").style.display = $("mode").value === "team" ? "" : "none";
+  if (a === "monthly_summary") $("hint").textContent = "Summarises the last N days.";
+  else if (a === "check_unusual_expense") $("hint").textContent = selected ? "Compares it with the average for its category." : "Pick a saved expense first.";
+  else $("hint").textContent = selected ? "The classifier only gets the id, so it has to look the expense up." : "Pick an expense, or type a new one.";
+}
+$("action").onchange = updateForm;
+$("mode").onchange = updateForm;
+
+// ---------- middle: ask the agents ----------
+function addMsg(kind, html) {
+  var div = document.createElement("div");
+  div.className = "msg " + kind;
+  div.innerHTML = html;
+  $("chat").appendChild(div);
+  $("chat").scrollTop = $("chat").scrollHeight;
+  return div;
+}
+
+async function ask() {
+  if (busy) return;
+  var action = $("action").value;
+  var team = $("mode").value === "team";
+  var body = {};
+  var text = "";
+
+  if (action === "monthly_summary") {
+    body.days = parseInt($("days").value);
+    text = "Summarise my spending for the last " + body.days + " days";
+  } else if (action === "categorize_expense" && $("freeDesc").value.trim()) {
+    body.description = $("freeDesc").value.trim();
+    body.amount = parseFloat($("freeAmount").value) || null;
+    text = 'Categorise "' + body.description + '"';
+  } else if (selected) {
+    body.expense_id = selected.id;
+    text = (action === "categorize_expense" ? "Categorise #" : "Is this unusual? #") + selected.id + " " + selected.description;
+  } else {
+    $("hint").textContent = "Pick an expense or type one first.";
+    return;
+  }
+
+  var url = "/api/agent/" + action;
+  if (team) {
+    url = "/api/team/run";
+    body.action = action;
+    if ($("simulate").value) body.simulate = $("simulate").value;
+  }
+
+  busy = true;
+  addMsg("user", esc(text) + (body.simulate ? ' <span class="chip rev">simulate: ' + esc(body.simulate) + "</span>" : ""));
+  var wait = addMsg("agent", '<span class="hint">the agents are working...</span>');
+  try {
+    var r = await postJSON(url, body);
+    wait.remove();
+    if (!r.ok) {
+      var detail = Array.isArray(r.data.detail) ? r.data.detail.join("; ") : r.data.detail;
+      addMsg("error", "<b>" + r.status + "</b> " + esc(r.data.error) + ": " + esc(detail));
+    } else if (team) {
+      showConversation(r.data);
+    } else {
+      showAnswer(r.data.result, '<span class="chip">single agent</span><span class="chip">' + r.data.latency_ms + " ms</span>");
+    }
+  } catch (e) {
+    wait.remove();
+    addMsg("error", "Could not reach the server.");
+  }
+  busy = false;
+  loadExpenses();
+  loadState();
+  loadLog();
+}
+$("askBtn").onclick = ask;
+$("freeDesc").addEventListener("keydown", function (e) { if (e.key === "Enter") ask(); });
+
+function who(name) {
+  var known = ["orchestrator", "classifier", "reviewer"];
+  var cls = known.indexOf(name) >= 0 ? name : "other";
+  return '<span class="who ' + cls + '">' + esc(name) + "</span>";
+}
+
+// one line about what a message says
+function describe(m) {
+  var c = m.content || {};
+  if (!m.valid) return "<b>Not delivered:</b> " + esc(m.error);
+  if (m.intent === "classify_request") {
+    var q = c.request || {};
+    return "asks for <b>" + esc(q.action) + "</b>" + (q.expense_id ? " on expense #" + q.expense_id : "");
+  }
+  if (m.intent === "review_request") {
+    var p = c.proposal || {};
+    var ans;
+    if (p.action === "categorize_expense") ans = catTag(p.category);
+    else if (p.action === "check_unusual_expense") ans = "<b>unusual = " + esc(p.is_unusual) + "</b>";
+    else ans = '"' + esc((p.summary || "").slice(0, 90)) + '"';
+    var tools = (c.tools_called || []).length ? " · tools: " + esc(c.tools_called.join(", ")) : "";
+    return "round " + c.round + ", proposes " + ans + " confidence " + p.confidence + tools;
+  }
+  var r = c.review || {};
+  var verdict = r.verdict === "approve" ? '<span class="chip ok">approve</span>' : '<span class="chip rev">revise</span>';
+  var sug = r.suggested_category ? " · suggests " + catTag(r.suggested_category) : "";
+  return verdict + " " + esc(r.feedback || "") + sug;
+}
+
+function showConversation(d) {
+  var html = '<div class="hint">conversation ' + esc(d.conversation_id) + " · " + d.messages.length + " messages</div>";
+  for (var i = 0; i < d.messages.length; i++) {
+    var m = d.messages[i];
+    html += '<div class="amsg' + (m.valid ? "" : " bad") + '">' +
+            '<div class="hd"><span class="step">step ' + m.step + "</span>" + who(m.sender) + ' <span class="arrow">→</span> ' + who(m.receiver) +
+            '<span class="intent">' + esc(m.intent) + "</span></div>" + describe(m) + "</div>";
+  }
+  for (var j = 0; j < d.errors.length; j++) {
+    var e = d.errors[j];
+    html += '<div class="amsg bad"><div class="hd"><span class="step">step ' + e.step + "</span>" + who("orchestrator") +
+            '<span class="intent">' + esc(e.kind) + "</span></div>" + esc(e.detail) + "</div>";
+  }
+  addMsg("thread", html);
+
+  var cls = d.status.indexOf("approved") === 0 ? "ok" : (d.status === "max_rounds" ? "rev" : "bad");
+  var chips = '<span class="chip ' + cls + '">' + esc(d.status.split("_").join(" ")) + "</span>" +
+              '<span class="chip">' + d.rounds + " round" + (d.rounds === 1 ? "" : "s") + "</span>" +
+              (d.saved_to_store ? '<span class="chip ok">saved</span>' : "") +
+              '<span class="chip">' + d.latency_ms + " ms</span>";
+  showAnswer(d.final, chips);
+}
+
+function showAnswer(res, chips) {
+  var answer;
+  if (res.action === "categorize_expense") answer = res.category ? catTag(res.category) : "no category";
+  else if (res.action === "check_unusual_expense") answer = res.is_unusual === null ? "can't tell" : (res.is_unusual ? "Yes, unusual" : "No, normal");
+  else answer = esc(res.summary || "(no summary)");
+  var pct = Math.round((res.confidence || 0) * 100);
+  addMsg("agent", '<div class="hint">final answer</div><div class="answer">' + answer + "</div>" +
+         esc(res.reasoning) + '<div class="conf"><div style="width:' + pct + '%"></div></div>' +
+         '<div class="hint">confidence ' + pct + "%</div>" + chips);
+}
+
+// ---------- right: state and log ----------
+async function loadState() {
+  try {
+    var s = await getJSON("/api/agent/state");
+    var t = await getJSON("/api/team/state");
+  } catch (e) {
+    return;
+  }
+  $("runCount").textContent = s.run_count;
+  $("errorCount").textContent = s.error_count;
+  $("fallbackCount").textContent = s.fallback_count;
+  $("tApproved").textContent = t.approved_first_round;
+  $("tRevised").textContent = t.approved_after_revision;
+  $("tFailed").textContent = t.max_rounds_hit + t.unreviewed + t.fallbacks;
+}
+
+async function loadLog() {
+  var lines;
+  try {
+    lines = await getJSON("/api/agent/logs?lines=60");
+  } catch (e) {
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < lines.length; i++) {
+    var l = lines[i];
+    var cls = "";
+    if (l.includes("ERROR")) cls = "err";
+    else if (l.includes("MSG ") || l.includes("ORCH ") || l.includes("REVIEW VERDICT")) cls = "route";
+    else if (l.includes("STATE TRANSITION") || l.includes("STATE RESET")) cls = "state";
+    else if (l.includes("TOOL CALL") || l.includes("TOOL RESULT")) cls = "tool";
+    else if (l.includes("WARNING")) cls = "warn";
+    html += '<span class="' + cls + '">' + esc(l.slice(11)) + "</span>\n";  // cut the date, keep the time
+  }
+  $("log").innerHTML = html;
+  $("log").scrollTop = $("log").scrollHeight;
+}
+
+async function loadHealth() {
+  try {
+    var h = await getJSON("/health");
+    $("health").textContent = h.model + " · classifier " + (h.llm_ready ? "ready" : "rules only") +
+                              " · reviewer " + (h.reviewer_llm_ready ? "ready" : "rules only");
+    $("health").className = h.llm_ready ? "pill" : "pill bad";
+  } catch (e) {
+    $("health").textContent = "server not reachable";
+    $("health").className = "pill bad";
+  }
+}
+
+$("resetBtn").onclick = async function () {
+  await postJSON("/api/agent/state/reset");
+  await postJSON("/api/team/state/reset");
+  loadState();
+  addMsg("agent", "State reset.");
+};
+
+// ---------- start ----------
+updateForm();
+loadExpenses();
+loadState();
+loadLog();
+loadHealth();
+setInterval(loadLog, 3000);
+setInterval(loadState, 3000);
+setInterval(loadHealth, 15000);
+</script>
+</body>
+</html>

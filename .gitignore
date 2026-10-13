@@ -1,0 +1,16 @@
+# secrets and local stuff, never commit these
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+logs/
+data/agent_state.json
+data/expenses.json
+demo_output.txt
+.DS_Store
+Thumbs.db
+.venv-win/
+data/team_state.json
+data/conversations.jsonl
+data/*.old

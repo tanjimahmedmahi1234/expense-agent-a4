@@ -1,0 +1,581 @@
+{
+  "summary": {
+    "version": "v3",
+    "runs": 22,
+    "repeats": 2,
+    "parsed_rate": 0.22727272727272727,
+    "accuracy": 0.22727272727272727,
+    "tool_use_rate": 0.3181818181818182,
+    "fenced": 1,
+    "retries": 0,
+    "warning_runs": 2,
+    "consistency": 0.9090909090909091,
+    "mean_latency_ms": 2076
+  },
+  "cases": [
+    {
+      "id": "C1",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 4
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Netflix, saved"
+    },
+    {
+      "id": "C2",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 5
+      },
+      "expect": {
+        "category": [
+          "transport"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Uber to airport, saved"
+    },
+    {
+      "id": "C3",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 6
+      },
+      "expect": {
+        "category": [
+          "health"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Chemist Warehouse vitamins, saved"
+    },
+    {
+      "id": "C4",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 9
+      },
+      "expect": {
+        "category": [
+          "shopping"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "JB Hi-Fi headphones, saved"
+    },
+    {
+      "id": "C5",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 10
+      },
+      "expect": {
+        "category": [
+          "education"
+        ],
+        "tool": "lookup_expense"
+      },
+      "note": "Textbook, saved"
+    },
+    {
+      "id": "C6",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Spotify premium",
+        "amount": 12.99,
+        "merchant": "Spotify"
+      },
+      "expect": {
+        "category": [
+          "entertainment"
+        ],
+        "tool": null
+      },
+      "note": "free text, clear"
+    },
+    {
+      "id": "C7",
+      "action": "categorize_expense",
+      "args": {
+        "description": "Bunnings paint and brushes",
+        "amount": 85.0,
+        "merchant": "Bunnings"
+      },
+      "expect": {
+        "category": [
+          "shopping",
+          "other"
+        ],
+        "tool": null
+      },
+      "note": "free text, ambiguous"
+    },
+    {
+      "id": "C8",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 14
+      },
+      "expect": {
+        "is_unusual": true,
+        "tool": "category_totals"
+      },
+      "note": "$410 groceries vs ~$48 average"
+    },
+    {
+      "id": "C9",
+      "action": "check_unusual_expense",
+      "args": {
+        "expense_id": 8
+      },
+      "expect": {
+        "is_unusual": false,
+        "tool": "category_totals"
+      },
+      "note": "$5.50 coffee, normal"
+    },
+    {
+      "id": "C10",
+      "action": "monthly_summary",
+      "args": {
+        "days": 30
+      },
+      "expect": {
+        "summary_contains": "rent",
+        "tool": "category_totals"
+      },
+      "note": "summary should name rent as biggest"
+    },
+    {
+      "id": "C11",
+      "action": "categorize_expense",
+      "args": {
+        "expense_id": 999
+      },
+      "expect": {
+        "category": [
+          null
+        ],
+        "max_confidence": 0.2,
+        "tool": "lookup_expense"
+      },
+      "note": "expense does not exist"
+    }
+  ],
+  "runs": [
+    {
+      "case": "C1",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29342, Requested 815. Please try again in 314ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 840,
+      "answer": "entertainment",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29342, Requested 815. Please try again in 314ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C1",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29241, Requested 851. Please try again in 184ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2254,
+      "answer": "entertainment",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29241, Requested 851. Please try again in 184ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C2",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29237, Requested 850. Please try again in 174ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2040,
+      "answer": "transport",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29237, Requested 850. Please try again in 174ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C2",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29243, Requested 850. Please try again in 186ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2046,
+      "answer": "transport",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29243, Requested 850. Please try again in 186ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C3",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3138,
+      "answer": "health",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'Chemist Warehouse vitamins', which fits into the health category as it involves purchasing health-related products.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":6,\"category\":\"health\",\"reasoning\":\"The expense is for 'Chemist Warehouse vitamins', which fits into the health category as it involves purchasing health-related products.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C3",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29353, Requested 815. Please try again in 336ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 965,
+      "answer": "health",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29353, Requested 815. Please try again in 336ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C4",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29236, Requested 853. Please try again in 178ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2277,
+      "answer": "utilities",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29236, Requested 853. Please try again in 178ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C4",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 3392,
+      "answer": "shopping",
+      "confidence": 0.9,
+      "reasoning": "The expense is for 'JB Hi-Fi headphones', which falls under the shopping category as it involves purchasing electronics.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":9,\"category\":\"shopping\",\"reasoning\":\"The expense is for 'JB Hi-Fi headphones', which falls under the shopping category as it involves purchasing electronics.\",\"confidence\":0.9}"
+    },
+    {
+      "case": "C5",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29230, Requested 854. Please try again in 168ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 3019,
+      "answer": "education",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29230, Requested 854. Please try again in 168ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C5",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29211, Requested 854. Please try again in 130ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2084,
+      "answer": "education",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29211, Requested 854. Please try again in 130ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C6",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": true,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 875,
+      "answer": "entertainment",
+      "confidence": 0.9,
+      "reasoning": "Spotify is a music streaming service, which falls under the entertainment category.",
+      "raw_output": "```json\n{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"entertainment\",\"reasoning\":\"Spotify is a music streaming service, which falls under the entertainment category.\",\"confidence\":0.9}\n```"
+    },
+    {
+      "case": "C6",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29287, Requested 814. Please try again in 202ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 1086,
+      "answer": "entertainment",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29287, Requested 814. Please try again in 202ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C7",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 28826, Requested 1245. Please try again in 142ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2982,
+      "answer": "other",
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 28826, Requested 1245. Please try again in 142ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C7",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "list_recent_expenses"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1776,
+      "answer": "other",
+      "confidence": 0.7,
+      "reasoning": "The expense for 'Bunnings paint and brushes' does not fit into any of the predefined categories like food, transport, rent, utilities, entertainment, shopping, health, or education, so it is best categorized as 'other'.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":null,\"category\":\"other\",\"reasoning\":\"The expense for 'Bunnings paint and brushes' does not fit into any of the predefined categories like food, transport, rent, utilities, entertainment, shopping, health, or education, so it is best categorized as 'other'.\",\"confidence\":0.7}"
+    },
+    {
+      "case": "C8",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29571, Requested 808. Please try again in 758ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2203,
+      "answer": true,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29571, Requested 808. Please try again in 758ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C8",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29232, Requested 845. Please try again in 154ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2739,
+      "answer": true,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29232, Requested 845. Please try again in 154ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C9",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29243, Requested 845. Please try again in 176ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 1995,
+      "answer": false,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29243, Requested 845. Please try again in 176ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C9",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29247, Requested 845. Please try again in 184ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2062,
+      "answer": false,
+      "confidence": 0.3,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29247, Requested 845. Please try again in 184ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C10",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29195, Requested 886. Please try again in 162ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2084,
+      "answer": "You spent $2306.44 across 13 expenses in the last 30 days. The biggest category was rent. 5 expenses still have no category.",
+      "confidence": 0.5,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29195, Requested 886. Please try again in 162ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C10",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29190, Requested 886. Please try again in 152ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2022,
+      "answer": "You spent $2306.44 across 13 expenses in the last 30 days. The biggest category was rent. 5 expenses still have no category.",
+      "confidence": 0.5,
+      "reasoning": "Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29190, Requested 886. Please try again in 152ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    },
+    {
+      "case": "C11",
+      "version": "v3",
+      "parsed": true,
+      "correct": true,
+      "tools_called": [
+        "lookup_expense"
+      ],
+      "expected_tool_used": true,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": null,
+      "executor_calls": 1,
+      "latency_ms": 1659,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "The expense with id 999 does not exist, so it cannot be categorized.",
+      "raw_output": "{\"action\":\"categorize_expense\",\"expense_id\":999,\"category\":null,\"reasoning\":\"The expense with id 999 does not exist, so it cannot be categorized.\",\"confidence\":0.0}"
+    },
+    {
+      "case": "C11",
+      "version": "v3",
+      "parsed": false,
+      "correct": false,
+      "tools_called": [],
+      "expected_tool_used": false,
+      "fenced": false,
+      "retry": false,
+      "warnings": [
+        "no category returned"
+      ],
+      "error": "RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29415, Requested 815. Please try again in 460ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}",
+      "executor_calls": 1,
+      "latency_ms": 2141,
+      "answer": null,
+      "confidence": 0.0,
+      "reasoning": "Expense 999 does not exist. Fallback rule used because the model step failed (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for gpt-4o in organization org-xxxx on tokens per min (TPM): Limit 30000, Used 29415, Requested 815. Please try again in 460ms. Visit https://platform.openai.com/account/rate-limits to learn more.', 'type': 'tokens', 'param': None, 'code': 'rate_limit_exceeded'}}).",
+      "raw_output": ""
+    }
+  ]
+}
