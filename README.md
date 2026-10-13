@@ -4,6 +4,7 @@ Tanjim Ahmed Mahi, Student ID 12298057
 
 A small personal finance app built around LangChain agents.
 
+- **Assessment 3:** one agent that categorises expenses, checks if an expense is unusual, and summarises spending. It has three tools, an `AgentState` class, FastAPI endpoints and a pytest suite.
 - **Assessment 4:** a second agent. The A3 agent is now the **Classifier**, a new **Reviewer** checks every answer against the data, and an **Orchestrator** routes the messages between them, validates every message, stops loops, handles timeouts and falls back when something breaks.
 
 Model: `gpt-4o` through `langchain-openai`, LangChain 0.3.
